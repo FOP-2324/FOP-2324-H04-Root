@@ -3,9 +3,7 @@ package h04.selection;
 import fopbot.Field;
 import fopbot.FieldClickEvent;
 import fopbot.FieldClickListener;
-import fopbot.InputHandler;
-
-import java.awt.*;
+import fopbot.World;
 
 public class MouseFieldSelector implements FieldSelector, FieldClickListener {
 
@@ -14,7 +12,7 @@ public class MouseFieldSelector implements FieldSelector, FieldClickListener {
     private FieldSelectionListener listener;
 
     public MouseFieldSelector() {
-        InputHandler.getInputHandler().addFieldClickListener(this);
+        World.addFieldClickListener(this);
     }
 
     @Override
@@ -24,18 +22,6 @@ public class MouseFieldSelector implements FieldSelector, FieldClickListener {
 
     @Override
     public void onFieldClick(FieldClickEvent fieldClickEvent) {
-        Field field = fieldClickEvent.getField();
-        if (lastField != null) {
-            lastField.setFieldColor(null);
-        }
-        field.setFieldColor(Color.BLUE);
-        if (lastField == field) {
-            listener.onFieldSelection(field);
-        }
-        lastField = field;
-
-        return;
-
-
+        listener.onFieldSelection(fieldClickEvent.getField());
     }
 }

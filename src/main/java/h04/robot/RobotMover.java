@@ -1,12 +1,10 @@
-package h04.movement;
+package h04.robot;
 
 import fopbot.Field;
 import fopbot.Robot;
 import h04.strategy.MoveStrategyWithCounter;
 import h04.strategy.MoveStrategy;
 import h04.selection.FieldSelectionListener;
-import h04.selection.KeyboardFieldSelector;
-import h04.selection.MouseFieldSelector;
 
 public class RobotMover implements FieldSelectionListener {
 
@@ -32,10 +30,6 @@ public class RobotMover implements FieldSelectionListener {
     public void onFieldSelection(Field field) {
         for (Robot r : robots) {
             moveStrategy.start(r, field);
-            int currentMoveCount = moveStrategy instanceof MoveStrategyWithCounter mc ? mc.getMoveCount() : 1;
-            for (int i = 0; i < currentMoveCount; i++) {
-                r.putCoin();
-            }
         }
     }
 }

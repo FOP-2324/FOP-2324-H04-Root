@@ -13,7 +13,7 @@ public class KeyboardFieldSelector implements FieldSelector, KeyPressListener {
     private Field lastField;
 
     public KeyboardFieldSelector() {
-        InputHandler.getInputHandler().addKeyPressListener(this);
+        World.addKeyPressListener(this);
     }
 
     @Override

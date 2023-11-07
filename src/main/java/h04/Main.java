@@ -1,7 +1,13 @@
 package h04;
 
+import fopbot.Robot;
+import fopbot.RobotFamily;
 import fopbot.World;
-import h04.movement.MovableRobot;
+import h04.robot.MoveableRobot;
+import h04.robot.RobotMover;
+import h04.selection.KeyboardFieldSelector;
+import h04.selection.MouseFieldSelector;
+import h04.strategy.MoveByTeleport;
 import h04.strategy.MoveByWalk;
 
 
@@ -16,20 +22,28 @@ public class Main {
      * @param args program arguments, currently ignored
      */
     public static void main(String[] args) {
-        System.out.println("Hello World!");
-
         World.setVisible(true);
-        World.setDelay(50);
-        new MovableRobot(new MoveByWalk());
-//        Robot robot = new Robot(0, 0, Direction.UP, 1000, RobotFamily.SQUARE_WHITE);
-//        Robot robot2 = new Robot(1, 0);
-//        Robot robot3 = new Robot(2, 0);
+        main01();
+        main02();
+    }
 
+    public static void main01() {
+        MouseFieldSelector mfs = new MouseFieldSelector();
+        MoveByWalk mbw = new MoveByWalk();
+        RobotMover rm = new RobotMover(mbw);
+        mfs.setFieldSelectionListener(rm);
+        Robot r1 = new Robot(1, 3, RobotFamily.SQUARE_RED);
+        Robot r2 = new Robot(4, 2, RobotFamily.SQUARE_GREEN);
+        Robot r3 = new Robot(6, 9, RobotFamily.SQUARE_BLUE);
+        rm.addRobot(r1);
+        rm.addRobot(r2);
+        rm.addRobot(r3);
+    }
 
-//        new RobotMover(new MoveByWalk()).addRobot(robot);
-//        new Launcher().addRobot(robot2);
-//        new Launcher().addRobot(robot3);
-
-
+    public static void main02() {
+        KeyboardFieldSelector kfs = new KeyboardFieldSelector();
+        MoveByTeleport mbt = new MoveByTeleport();
+        MoveableRobot mr = new MoveableRobot(mbt);
+        kfs.setFieldSelectionListener(mr);
     }
 }
