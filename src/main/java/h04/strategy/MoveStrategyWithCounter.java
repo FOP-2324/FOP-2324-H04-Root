@@ -1,6 +1,6 @@
 package h04.strategy;
 
-public interface MoveStrategyWithCounter {
+public interface MoveStrategyWithCounter extends MoveStrategy {
 
     int getMoveCount();
 }

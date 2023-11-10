@@ -18,7 +18,7 @@ public class MoveableRobot extends Robot implements FieldSelectionListener {
     @Override
     public void onFieldSelection(Field field) {
         moveStrategy.start(this, field);
-        int currentMoveCount = moveStrategy instanceof MoveStrategyWithCounter mc ? mc.getMoveCount() : 1;
+        int currentMoveCount = moveStrategy instanceof MoveStrategyWithCounter mc ? mc.getMoveCount() : 0;
         for (int i = 0; i < currentMoveCount; i++) {
             this.turnLeft();
         }

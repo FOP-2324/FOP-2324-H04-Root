@@ -7,7 +7,7 @@ import static fopbot.Direction.*;
 
 public class MoveByWalk implements MoveStrategy, MoveStrategyWithCounter {
 
-    private int moveCount;
+    private int moveCount = -1;
 
     @Override
     public void start(Robot r, Field target) {

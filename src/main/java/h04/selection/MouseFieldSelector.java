@@ -22,6 +22,10 @@ public class MouseFieldSelector implements FieldSelector, FieldClickListener {
 
     @Override
     public void onFieldClick(FieldClickEvent fieldClickEvent) {
-        listener.onFieldSelection(fieldClickEvent.getField());
+        Field field = fieldClickEvent.getField();
+        if (lastField == field) {
+            listener.onFieldSelection(field);
+        }
+        lastField = field;
     }
 }
