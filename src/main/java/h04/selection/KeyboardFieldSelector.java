@@ -1,10 +1,14 @@
 package h04.selection;
 
-import fopbot.*;
-
-import java.awt.*;
+import java.awt.Color;
 
 import static java.lang.Math.floorMod;
+
+import fopbot.Field;
+import fopbot.Key;
+import fopbot.KeyPressEvent;
+import fopbot.KeyPressListener;
+import fopbot.World;
 
 public class KeyboardFieldSelector implements FieldSelector, KeyPressListener {
 
@@ -29,6 +33,9 @@ public class KeyboardFieldSelector implements FieldSelector, KeyPressListener {
         if (lastField == null) {
             lastField = world.getField(0, 0);
             lastField.setFieldColor(Color.RED);
+            return;
+        }
+        if (key != Key.LEFT && key != Key.RIGHT && key != Key.UP && key != Key.DOWN && key != Key.SPACE) {
             return;
         }
         int dX = key == Key.LEFT ? -1 : key == Key.RIGHT ? 1 : 0;
