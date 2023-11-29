@@ -17,16 +17,32 @@ jagr {
         }
     }
     graders {
-        val graderPublic by creating {
-            graderName.set("H04-Public")
+        val graderPrivate by creating {
+            graderName.set("H04-Private")
             rubricProviderName.set("h04.H04_RubricProvider")
+            config.set(
+                org.sourcegrade.jagr.launcher.env.Config(
+                    executor = org.sourcegrade.jagr.launcher.env.Executor(
+                        jvmArgs = listOf(
+                            "-Djava.awt.headless=true",
+                            "-Dtestfx.robot=glass",
+                            "-Dtestfx.headless=true",
+                            "-Dprism.order=sw",
+                            "-Dprism.lcdtext=false",
+                            "-Dprism.subpixeltext=false",
+                            "-Dglass.win.uiScale=100%",
+                            "-Dprism.text=t2k",
+                        ),
+                    ),
+                    transformers = org.sourcegrade.jagr.launcher.env.Transformers(
+                        timeout = org.sourcegrade.jagr.launcher.env.Transformers.TimeoutTransformer(enabled = false),
+                    ),
+                ),
+            )
             configureDependencies {
                 implementation(libs.algoutils.tutor)
+                implementation(libs.junit.pioneer)
             }
-        }
-        val graderPrivate by creating {
-            parent(graderPublic)
-            graderName.set("H04-Private")
         }
     }
 }
