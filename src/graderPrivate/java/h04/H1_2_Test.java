@@ -1,14 +1,13 @@
 package h04;
 
-import fopbot.Field;
-import fopbot.Robot;
 import h04.util.StudentLinks;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.sourcegrade.jagr.api.rubric.TestForSubmission;
 import org.tudalgo.algoutils.tutor.general.assertions.Assertions3;
-import org.tudalgo.algoutils.tutor.general.match.BasicReflectionMatchers;
 import org.tudalgo.algoutils.tutor.general.reflections.Modifier;
 
+@TestForSubmission
 public class H1_2_Test {
 
     @Test

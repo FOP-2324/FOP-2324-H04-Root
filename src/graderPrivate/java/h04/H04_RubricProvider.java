@@ -1,11 +1,9 @@
 package h04;
 
 import org.sourcegrade.jagr.api.rubric.*;
-import org.tudalgo.algoutils.tutor.general.assertions.Context;
 
 import static org.tudalgo.algoutils.tutor.general.jagr.RubricUtils.criterion;
 import static org.tudalgo.algoutils.tutor.general.jagr.RubricUtils.defaultCriterionBuilder;
-import static org.tudalgo.algoutils.tutor.general.stringify.HTML.it;
 
 public class H04_RubricProvider implements RubricProvider {
 
@@ -19,10 +17,12 @@ public class H04_RubricProvider implements RubricProvider {
                         .shortDescription("H1.1 | Interface für Move Strategies")
                         .addChildCriteria(
                             criterion(
-                                "Das Interface MoveStrategy wurde korrekt deklariert."
+                                "Das Interface MoveStrategy wurde korrekt deklariert.",
+                                JUnitTestRef.ofMethod(() -> H1_1_Test.class.getMethod("testDeclaredCorrectly"))
                             ),
                             criterion(
-                                "Die Methode start() wurde korrekt deklariert."
+                                "Die Methode start() wurde korrekt deklariert.",
+                                JUnitTestRef.ofMethod(() -> H1_1_Test.class.getMethod("testStartMethodDeclaredCorrectly"))
                             )
                         )
                         .build(),
@@ -30,10 +30,12 @@ public class H04_RubricProvider implements RubricProvider {
                         .shortDescription("H1.2 | Interface für Move MoveStrategyWithCounter mit Counters")
                         .addChildCriteria(
                             criterion(
-                                "Das Interface MoveStrategyWithCounter wurde korrekt deklariert."
+                                "Das Interface MoveStrategyWithCounter wurde korrekt deklariert.",
+                                JUnitTestRef.ofMethod(() -> H1_2_Test.class.getMethod("testDeclaredCorrectly"))
                             ),
                             criterion(
-                                "Die Methode getMoveCount() wurde korrekt deklariert."
+                                "Die Methode getMoveCount() wurde korrekt deklariert.",
+                                JUnitTestRef.ofMethod(() -> H1_2_Test.class.getMethod("testGetMoveCountMethodDeclaredCorrectly"))
                             )
                         )
                         .build(),
@@ -41,10 +43,12 @@ public class H04_RubricProvider implements RubricProvider {
                         .shortDescription("H1.3 | Move me by a Teleport!")
                         .addChildCriteria(
                             criterion(
-                                "Die Klasse MoveByTeleport wurde korrekt deklariert."
+                                "Die Klasse MoveByTeleport wurde korrekt deklariert.",
+                                JUnitTestRef.ofMethod(() -> H1_3_Test.class.getMethod("testDeclaredCorrectly"))
                             ),
                             criterion(
-                                "Nach dem Aufruf der Methode start() befindet sich der Roboter auf dem gegebenen Feld."
+                                "Nach dem Aufruf der Methode start() befindet sich der Roboter auf dem gegebenen Feld.",
+                                JUnitTestRef.ofMethod(() -> H1_3_Test.class.getMethod("testStartMethodDeclaredCorrectly"))
                             ),
                             criterion(
                                 "Die Methode start() ist vollständig korrekt implementiert."

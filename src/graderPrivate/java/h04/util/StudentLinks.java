@@ -18,36 +18,42 @@ public class StudentLinks {
         )
     );
 
-    private static Supplier<TypeLink> typeLinkSup(String name) {
-        return Suppliers.memoize(() -> Assertions3.assertTypeExists(
+    private static Supplier<BasicTypeLink> typeLinkSup(String name) {
+        return Suppliers.memoize(() -> (BasicTypeLink) Assertions3.assertTypeExists(
             PACKAGES_LINK.get(),
             similarityMatcher(name)
         ));
     }
 
-    private static Supplier<MethodLink> methodLinkSup(TypeLink tl, String name) {
-        return Suppliers.memoize(() -> Assertions3.assertMethodExists(
+    private static Supplier<BasicMethodLink> methodLinkSup(TypeLink tl, String name) {
+        return Suppliers.memoize(() -> (BasicMethodLink) Assertions3.assertMethodExists(
             tl,
             similarityMatcher(name)
         ));
     }
 
-    private static Supplier<FieldLink> fieldLinkSup(TypeLink tl, String name) {
-        return Suppliers.memoize(() -> Assertions3.assertFieldExists(
+    private static Supplier<BasicFieldLink> fieldLinkSup(TypeLink tl, String name) {
+        return Suppliers.memoize(() -> (BasicFieldLink) Assertions3.assertFieldExists(
             tl,
             similarityMatcher(name)
         ));
     }
 
-    public static final Supplier<TypeLink> MOVE_STRATEGY_LINK = typeLinkSup("MoveStrategy");
-    public static final Supplier<MethodLink> MOVE_STRATEGY_START_LINK = methodLinkSup(
+    public static final Supplier<BasicTypeLink> MOVE_STRATEGY_LINK = typeLinkSup("MoveStrategy");
+    public static final Supplier<BasicMethodLink> MOVE_STRATEGY_START_LINK = methodLinkSup(
         MOVE_STRATEGY_LINK.get(),
         "start"
     );
 
-    public static final Supplier<TypeLink> MOVE_STRATEGY_WITH_COUNTER_LINK = typeLinkSup("MoveStrategyWithCounter");
-    public static final Supplier<MethodLink> MOVE_STRATEGY_WITH_COUNTER_GET_MOVE_COUNT_LINK = methodLinkSup(
+    public static final Supplier<BasicTypeLink> MOVE_STRATEGY_WITH_COUNTER_LINK = typeLinkSup("MoveStrategyWithCounter");
+    public static final Supplier<BasicMethodLink> MOVE_STRATEGY_WITH_COUNTER_GET_MOVE_COUNT_LINK = methodLinkSup(
         MOVE_STRATEGY_WITH_COUNTER_LINK.get(),
         "getMoveCount"
+    );
+
+    public static final Supplier<BasicTypeLink> MOVE_BY_TELEPORT_LINK = typeLinkSup("MoveByTeleport");
+    public static final Supplier<BasicMethodLink> MOVE_BY_TELEPORT_START_LINK = methodLinkSup(
+        MOVE_BY_TELEPORT_LINK.get(),
+        "start"
     );
 }
