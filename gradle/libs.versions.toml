@@ -1,5 +1,5 @@
 [versions]
-algoutils = "0.7.2"
+algoutils = "0.7.3-SNAPSHOT"
 
 [libraries]
 annotations = "org.jetbrains:annotations:23.0.0"
