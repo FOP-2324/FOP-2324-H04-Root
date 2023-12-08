@@ -1,4 +1,4 @@
-package h04.util;
+package h04.util.reflect;
 
 import org.tudalgo.algoutils.tutor.general.reflections.PackageLink;
 import org.tudalgo.algoutils.tutor.general.reflections.TypeLink;

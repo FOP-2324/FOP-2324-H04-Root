@@ -1,0 +1,258 @@
+[
+  {
+    "worldWidth": 10,
+    "worldHeight": 10,
+    "robot": {
+      "x": 5,
+      "y": 5,
+      "direction": "UP",
+      "numberOfCoins": 10
+    },
+    "expectedEndPosition": {
+      "x": 5,
+      "y": 5
+    },
+    "expectedEndDirection": "UP",
+    "note": "test no movement"
+  },
+  {
+    "worldWidth": 10,
+    "worldHeight": 10,
+    "robot": {
+      "x": 5,
+      "y": 5,
+      "direction": "UP",
+      "numberOfCoins": 10
+    },
+    "expectedEndPosition": {
+      "x": 0,
+      "y": 0
+    },
+    "expectedEndDirection": "UP"
+  },
+  {
+    "worldWidth": 10,
+    "worldHeight": 10,
+    "robot": {
+      "x": 5,
+      "y": 5,
+      "direction": "LEFT",
+      "numberOfCoins": 10
+    },
+    "expectedEndPosition": {
+      "x": 0,
+      "y": 0
+    },
+    "expectedEndDirection": "LEFT"
+  },
+  {
+    "worldWidth": 10,
+    "worldHeight": 10,
+    "robot": {
+      "x": 5,
+      "y": 5,
+      "direction": "DOWN",
+      "numberOfCoins": 10
+    },
+    "expectedEndPosition": {
+      "x": 0,
+      "y": 0
+    },
+    "expectedEndDirection": "DOWN"
+  },
+  {
+    "worldWidth": 10,
+    "worldHeight": 10,
+    "robot": {
+      "x": 5,
+      "y": 5,
+      "direction": "RIGHT",
+      "numberOfCoins": 10
+    },
+    "expectedEndPosition": {
+      "x": 0,
+      "y": 0
+    },
+    "expectedEndDirection": "RIGHT"
+  },
+  {
+    "worldWidth": 10,
+    "worldHeight": 10,
+    "robot": {
+      "x": 5,
+      "y": 5,
+      "direction": "UP",
+      "numberOfCoins": 10
+    },
+    "expectedEndPosition": {
+      "x": 9,
+      "y": 9
+    },
+    "expectedEndDirection": "UP"
+  },
+  {
+    "worldWidth": 10,
+    "worldHeight": 10,
+    "robot": {
+      "x": 5,
+      "y": 5,
+      "direction": "LEFT",
+      "numberOfCoins": 10
+    },
+    "expectedEndPosition": {
+      "x": 9,
+      "y": 9
+    },
+    "expectedEndDirection": "LEFT"
+  },
+  {
+    "worldWidth": 10,
+    "worldHeight": 10,
+    "robot": {
+      "x": 5,
+      "y": 5,
+      "direction": "DOWN",
+      "numberOfCoins": 10
+    },
+    "expectedEndPosition": {
+      "x": 9,
+      "y": 9
+    },
+    "expectedEndDirection": "DOWN"
+  },
+  {
+    "worldWidth": 10,
+    "worldHeight": 10,
+    "robot": {
+      "x": 5,
+      "y": 5,
+      "direction": "RIGHT",
+      "numberOfCoins": 10
+    },
+    "expectedEndPosition": {
+      "x": 9,
+      "y": 9
+    },
+    "expectedEndDirection": "RIGHT"
+  },
+  {
+    "worldWidth": 10,
+    "worldHeight": 10,
+    "robot": {
+      "x": 5,
+      "y": 5,
+      "direction": "UP",
+      "numberOfCoins": 10
+    },
+    "expectedEndPosition": {
+      "x": 0,
+      "y": 9
+    },
+    "expectedEndDirection": "UP"
+  },
+  {
+    "worldWidth": 10,
+    "worldHeight": 10,
+    "robot": {
+      "x": 5,
+      "y": 5,
+      "direction": "LEFT",
+      "numberOfCoins": 10
+    },
+    "expectedEndPosition": {
+      "x": 0,
+      "y": 9
+    },
+    "expectedEndDirection": "LEFT"
+  },
+  {
+    "worldWidth": 10,
+    "worldHeight": 10,
+    "robot": {
+      "x": 5,
+      "y": 5,
+      "direction": "DOWN",
+      "numberOfCoins": 10
+    },
+    "expectedEndPosition": {
+      "x": 0,
+      "y": 9
+    },
+    "expectedEndDirection": "DOWN"
+  },
+  {
+    "worldWidth": 10,
+    "worldHeight": 10,
+    "robot": {
+      "x": 5,
+      "y": 5,
+      "direction": "RIGHT",
+      "numberOfCoins": 10
+    },
+    "expectedEndPosition": {
+      "x": 0,
+      "y": 9
+    },
+    "expectedEndDirection": "RIGHT"
+  },
+  {
+    "worldWidth": 10,
+    "worldHeight": 10,
+    "robot": {
+      "x": 5,
+      "y": 5,
+      "direction": "UP",
+      "numberOfCoins": 10
+    },
+    "expectedEndPosition": {
+      "x": 9,
+      "y": 0
+    },
+    "expectedEndDirection": "UP"
+  },
+  {
+    "worldWidth": 10,
+    "worldHeight": 10,
+    "robot": {
+      "x": 5,
+      "y": 5,
+      "direction": "LEFT",
+      "numberOfCoins": 10
+    },
+    "expectedEndPosition": {
+      "x": 9,
+      "y": 0
+    },
+    "expectedEndDirection": "LEFT"
+  },
+  {
+    "worldWidth": 10,
+    "worldHeight": 10,
+    "robot": {
+      "x": 5,
+      "y": 5,
+      "direction": "DOWN",
+      "numberOfCoins": 10
+    },
+    "expectedEndPosition": {
+      "x": 9,
+      "y": 0
+    },
+    "expectedEndDirection": "DOWN"
+  },
+  {
+    "worldWidth": 10,
+    "worldHeight": 10,
+    "robot": {
+      "x": 5,
+      "y": 5,
+      "direction": "RIGHT",
+      "numberOfCoins": 10
+    },
+    "expectedEndPosition": {
+      "x": 9,
+      "y": 0
+    },
+    "expectedEndDirection": "RIGHT"
+  }
+]

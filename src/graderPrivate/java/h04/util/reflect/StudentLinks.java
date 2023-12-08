@@ -1,4 +1,4 @@
-package h04.util;
+package h04.util.reflect;
 
 import java.util.function.Supplier;
 
@@ -6,7 +6,7 @@ import com.google.common.base.Suppliers;
 import org.tudalgo.algoutils.tutor.general.assertions.Assertions3;
 import org.tudalgo.algoutils.tutor.general.reflections.*;
 
-import static h04.util.Global.similarityMatcher;
+import static h04.util.reflect.Global.similarityMatcher;
 
 public class StudentLinks {
     public static final Supplier<PackageLink> PACKAGES_LINK = Suppliers.memoize(

@@ -1,6 +1,7 @@
 package h04;
 
 import org.sourcegrade.jagr.api.rubric.*;
+import org.tudalgo.algoutils.tutor.general.json.JsonParameterSet;
 
 import static org.tudalgo.algoutils.tutor.general.jagr.RubricUtils.criterion;
 import static org.tudalgo.algoutils.tutor.general.jagr.RubricUtils.defaultCriterionBuilder;
@@ -48,10 +49,11 @@ public class H04_RubricProvider implements RubricProvider {
                             ),
                             criterion(
                                 "Nach dem Aufruf der Methode start() befindet sich der Roboter auf dem gegebenen Feld.",
-                                JUnitTestRef.ofMethod(() -> H1_3_Test.class.getMethod("testStartMethodDeclaredCorrectly"))
+                                JUnitTestRef.ofMethod(() -> H1_3_Test.class.getMethod("testStartMethodNonStrict", JsonParameterSet.class))
                             ),
                             criterion(
-                                "Die Methode start() ist vollständig korrekt implementiert."
+                                "Die Methode start() ist vollständig korrekt implementiert.",
+                                JUnitTestRef.ofMethod(() -> H1_3_Test.class.getMethod("testStartMethodStrict", JsonParameterSet.class))
                             )
                         )
                         .build(),

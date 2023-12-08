@@ -1,4 +1,4 @@
-package h04.util;
+package h04.util.reflect;
 
 import fopbot.Direction;
 import fopbot.Robot;
@@ -26,7 +26,7 @@ import static org.tudalgo.algoutils.tutor.general.stringify.HTML.it;
 /**
  * Global constants and methods.
  */
-@SuppressWarnings({"removal", "deprecated"})
+@SuppressWarnings({"deprecated", "unused"})
 public class Global {
 
     /**
@@ -123,7 +123,7 @@ public class Global {
      * @return a {@link Matcher} for the given string
      */
     public static <T extends Stringifiable> Matcher<T> similarityMatcher(final String string) {
-        return new Matcher<T>() {
+        return new Matcher<>() {
 
             /**
              * The maximum similarity between the given string and a matched object.

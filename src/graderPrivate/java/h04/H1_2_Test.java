@@ -1,14 +1,24 @@
 package h04;
 
-import h04.util.StudentLinks;
+import h04.util.H04TestBase;
+import h04.util.TestConstants;
+import h04.util.reflect.StudentLinks;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Timeout;
 import org.sourcegrade.jagr.api.rubric.TestForSubmission;
 import org.tudalgo.algoutils.tutor.general.assertions.Assertions3;
 import org.tudalgo.algoutils.tutor.general.reflections.Modifier;
 
+import java.util.concurrent.TimeUnit;
+
 @TestForSubmission
-public class H1_2_Test {
+@Timeout(
+    value = TestConstants.TEST_TIMEOUT_IN_SECONDS,
+    unit = TimeUnit.SECONDS,
+    threadMode = Timeout.ThreadMode.SEPARATE_THREAD
+)
+public class H1_2_Test extends H04TestBase {
 
     @Test
     public void testDeclaredCorrectly() {
