@@ -56,4 +56,15 @@ public class StudentLinks {
         MOVE_BY_TELEPORT_LINK.get(),
         "start"
     );
+
+    public static final Supplier<BasicTypeLink> MOVE_BY_WALK_LINK = typeLinkSup("MoveByWalk");
+    public static final Supplier<BasicMethodLink> MOVE_BY_WALK_START_LINK = methodLinkSup(
+        MOVE_BY_WALK_LINK.get(),
+        "start"
+    );
+
+    public static final Supplier<BasicMethodLink> MOVE_BY_WALK_GET_MOVE_COUNT_LINK = methodLinkSup(
+        MOVE_BY_WALK_LINK.get(),
+        "getMoveCount"
+    );
 }

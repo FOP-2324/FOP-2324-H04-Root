@@ -61,16 +61,20 @@ public class H04_RubricProvider implements RubricProvider {
                         .shortDescription("H1.4 | Move me by a Walk!")
                         .addChildCriteria(
                             criterion(
-                                "Die Klasse MoveByWalk wurde korrekt deklariert."
+                                "Die Klasse MoveByWalk wurde korrekt deklariert.",
+                                JUnitTestRef.ofMethod(() -> H1_4_Test.class.getMethod("testDeclaredCorrectly"))
                             ),
                             criterion(
-                                "Beide interfaces wurden implementiert. (nicht zwingend korrekt)"
+                                "Nach dem Aufruf der Methode start() befindet sich der Roboter auf dem gegebenen Feld.",
+                                JUnitTestRef.ofMethod(() -> H1_4_Test.class.getMethod("testStartMethodNonStrict", JsonParameterSet.class))
                             ),
                             criterion(
-                                "Die Methode start() ist vollständig korrekt implementiert."
+                                "Die Methode start() ist vollständig korrekt implementiert.",
+                                JUnitTestRef.ofMethod(() -> H1_4_Test.class.getMethod("testStartMethodStrict", JsonParameterSet.class))
                             ),
                             criterion(
-                                "Die Methode getMoveCount() ist vollständig korrekt implementiert."
+                                "Die Methode getMoveCount() ist vollständig korrekt implementiert.",
+                                JUnitTestRef.ofMethod(() -> H1_4_Test.class.getMethod("testGetMoveCount", JsonParameterSet.class))
                             )
                         )
                         .build()
