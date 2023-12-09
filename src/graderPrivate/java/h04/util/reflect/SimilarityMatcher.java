@@ -5,8 +5,8 @@ import org.tudalgo.algoutils.tutor.general.match.Matcher;
 
 public class SimilarityMatcher<T> implements Matcher<T> {
     @Override
-    public Object object() {
-        return Matcher.super.object();
+    public String characteristic() {
+        return Matcher.super.characteristic();
     }
 
     @Override

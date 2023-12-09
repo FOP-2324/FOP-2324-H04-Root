@@ -89,7 +89,7 @@ public class H1_4_Test extends H04TestBase {
         var context = cb.build();
 
         if (testStart) {
-            Assertions3.assertImplementsInterfaceMethod(classLink, StudentLinks.MOVE_STRATEGY_START_LINK.get());
+            Assertions3.assertImplementsInterfaceMethod(classLink, StudentLinks.MOVE_STRATEGY_START_LINK.get(), strict);
             Assertions4.assertElementsNotUsed(
                 link.getCtElement(),
                 context,

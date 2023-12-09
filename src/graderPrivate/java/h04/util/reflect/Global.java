@@ -4,23 +4,25 @@ import fopbot.Direction;
 import fopbot.Robot;
 import fopbot.RobotFamily;
 import org.junit.jupiter.api.Assertions;
+import org.tudalgo.algoutils.tutor.general.assertions.Assertions2;
+import org.tudalgo.algoutils.tutor.general.callable.ObjectCallable;
 import org.tudalgo.algoutils.tutor.general.match.Match;
 import org.tudalgo.algoutils.tutor.general.match.Matcher;
 import org.tudalgo.algoutils.tutor.general.match.MatchingUtils;
 import org.tudalgo.algoutils.tutor.general.match.Stringifiable;
-import org.tudalgo.algoutils.tutor.general.reflections.BasicMethodLink;
-import org.tudalgo.algoutils.tutor.general.reflections.BasicPackageLink;
-import org.tudalgo.algoutils.tutor.general.reflections.BasicTypeLink;
-import org.tudalgo.algoutils.tutor.general.reflections.MethodLink;
-import org.tudalgo.algoutils.tutor.general.reflections.PackageLink;
-import org.tudalgo.algoutils.tutor.general.reflections.TypeLink;
+import org.tudalgo.algoutils.tutor.general.reflections.*;
 import org.tudalgo.algoutils.tutor.general.stringify.HTML;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static java.lang.Math.max;
+import static org.mockito.Mockito.CALLS_REAL_METHODS;
+import static org.mockito.Mockito.mock;
 import static org.tudalgo.algoutils.tutor.general.stringify.HTML.it;
 
 /**
@@ -101,6 +103,15 @@ public class Global {
      */
     public static final List<String> MISSPELLINGS = new ArrayList<>();
 
+    public static <T> List<T> arrayLikeToList(Object arrayLike, Class<T> clazz) {
+        if (arrayLike instanceof Object[] objects) {
+            return Stream.of(objects).map(clazz::cast).toList();
+        } else if (arrayLike instanceof Collection<?> collection) {
+            return collection.stream().map(clazz::cast).toList();
+        }
+        throw new IllegalArgumentException("The given object is not an array or collection.");
+    }
+
     /**
      * Returns an Error message, if the student implementation contains misspelled names.
      *
@@ -131,8 +142,8 @@ public class Global {
             double maxSimilarity = 0;
 
             @Override
-            public Object object() {
-                return string;
+            public String characteristic() {
+                return String.format("at least %.0f%% similar to %s", Global.MINIMUM_SIMILARITY * 100, HTML.tt(string));
             }
 
             @Override
@@ -178,5 +189,29 @@ public class Global {
                 };
             }
         };
+    }
+
+    /**
+     * Creates an instance of the given class using the given constructor and the given arguments. If this fails, a mock
+     * instance is created instead with "CALLS_REAL_METHODS" enabled.
+     *
+     * @param classLink       the class to instantiate
+     * @param constructorLink the constructor to use
+     * @param args            the arguments to try to pass to the constructor
+     * @return the created instance
+     */
+    @SafeVarargs
+    public static Object createInstance(
+        BasicTypeLink classLink,
+        ObjectCallable<BasicConstructorLink> constructorLink,
+        ObjectCallable<Object>... args
+    ) {
+        Object instance;
+        try {
+            instance = constructorLink.call().invoke(Arrays.stream(args).map(Assertions2::callObject).toArray());
+        } catch (Throwable e) {
+            instance = mock(classLink.reflection(), CALLS_REAL_METHODS);
+        }
+        return instance;
     }
 }
