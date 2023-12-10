@@ -1,6 +1,7 @@
 package h04;
 
 import org.sourcegrade.jagr.api.rubric.*;
+import org.sourcegrade.jagr.api.testing.TestCycle;
 import org.tudalgo.algoutils.tutor.general.json.JsonParameterSet;
 
 import static org.tudalgo.algoutils.tutor.general.jagr.RubricUtils.criterion;
@@ -137,10 +138,12 @@ public class H04_RubricProvider implements RubricProvider {
                         .shortDescription("H3.1 | Interface für Field Selectors ")
                         .addChildCriteria(
                             criterion(
-                                "Das Interface FieldSelector wurde korrekt deklariert."
+                                "Das Interface FieldSelector wurde korrekt deklariert.",
+                                JUnitTestRef.ofMethod(() -> H3_1_Test.class.getDeclaredMethod("testDeclaredCorrectly"))
                             ),
                             criterion(
-                                "Die Methode setFieldSelectionListener() wurde korrekt deklariert."
+                                "Die Methode setFieldSelectionListener() wurde korrekt deklariert.",
+                                JUnitTestRef.ofMethod(() -> H3_1_Test.class.getDeclaredMethod("testSetFieldSelectionListenerDeclaredCorrectly"))
                             )
                         )
                         .build(),
@@ -148,16 +151,20 @@ public class H04_RubricProvider implements RubricProvider {
                         .shortDescription("H3.2 | Die Eingabe mit der Maus ... ")
                         .addChildCriteria(
                             criterion(
-                                "Die Klasse MouseFieldSelector wurde korrekt deklariert."
+                                "Die Klasse MouseFieldSelector wurde korrekt deklariert.",
+                                JUnitTestRef.ofMethod(() -> H3_2_Test.class.getDeclaredMethod("testDeclaredCorrectly"))
                             ),
                             criterion(
-                                "Der Konstruktor ist vollständig korrekt."
+                                "Der Konstruktor ist vollständig korrekt.",
+                                JUnitTestRef.ofMethod(() -> H3_2_Test.class.getDeclaredMethod("testConstructor", TestCycle.class))
                             ),
                             criterion(
-                                "Die Methode setFieldSelectionListener() ist vollständig korrekt."
+                                "Die Methode setFieldSelectionListener() ist vollständig korrekt.",
+                                JUnitTestRef.ofMethod(() -> H3_2_Test.class.getDeclaredMethod("testFieldSelectionListener"))
                             ),
                             criterion(
-                                "Die Methode onFieldClick() ist vollständig korrekt."
+                                "Die Methode onFieldClick() ist vollständig korrekt.",
+                                JUnitTestRef.ofMethod(() -> H3_2_Test.class.getDeclaredMethod("testOnFieldClick"))
                             )
                         )
                         .build(),
@@ -165,16 +172,20 @@ public class H04_RubricProvider implements RubricProvider {
                         .shortDescription("H3.3 | ... und der Tastatur")
                         .addChildCriteria(
                             criterion(
-                                "Die Klasse KeyboardFieldSelector wurde korrekt deklariert."
+                                "Die Klasse KeyboardFieldSelector wurde korrekt deklariert.",
+                                JUnitTestRef.ofMethod(() -> H3_3_Test.class.getDeclaredMethod("testDeclaredCorrectly"))
                             ),
                             criterion(
-                                "Der Konstruktor ist vollständig korrekt."
+                                "Der Konstruktor ist vollständig korrekt.",
+                                JUnitTestRef.ofMethod(() -> H3_3_Test.class.getDeclaredMethod("testConstructor", TestCycle.class))
                             ),
                             criterion(
-                                "Die Methode setFieldSelectionListener() ist vollständig korrekt."
+                                "Die Methode setFieldSelectionListener() ist vollständig korrekt.",
+                                JUnitTestRef.ofMethod(() -> H3_3_Test.class.getDeclaredMethod("testFieldSelectionListener"))
                             ),
                             criterion(
-                                "Die Methode onKeyPressed() ist vollständig korrekt."
+                                "Die Methode onKeyPressed() ist vollständig korrekt.",
+                                JUnitTestRef.ofMethod(() -> H3_3_Test.class.getDeclaredMethod("testOnKeyPress"))
                             )
                         )
                         .build()

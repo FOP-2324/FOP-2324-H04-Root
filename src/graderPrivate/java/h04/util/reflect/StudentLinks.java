@@ -152,4 +152,17 @@ public class StudentLinks {
         ROBOT_MOVER_LINK.get(),
         MOVE_STRATEGY_LINK.get()
     );
+
+    // FieldSelector
+    public static final Supplier<BasicTypeLink> FIELD_SELECTOR_LINK = typeLinkSup("FieldSelector");
+    public static final Supplier<BasicMethodLink> FIELD_SELECTOR_SET_FIELD_SELECTION_LISTENER_LINK = methodLinkSup(
+        FIELD_SELECTOR_LINK.get(),
+        "setFieldSelectionListener"
+    );
+
+    // MouseFieldSelector
+    public static final Supplier<BasicTypeLink> MOUSE_FIELD_SELECTOR_LINK = typeLinkSup("MouseFieldSelector");
+
+    // KeyboardFieldSelector
+    public static final Supplier<BasicTypeLink> KEYBOARD_FIELD_SELECTOR_LINK = typeLinkSup("KeyboardFieldSelector");
 }
