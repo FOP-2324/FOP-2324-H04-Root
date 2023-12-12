@@ -8,6 +8,7 @@ import h04.util.reflect.StudentLinks;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
 import org.mockito.Mockito;
 import org.mockito.stubbing.Answer;
 import org.objectweb.asm.*;
@@ -17,6 +18,9 @@ import org.sourcegrade.jagr.api.testing.TestCycle;
 import org.sourcegrade.jagr.api.testing.extension.JagrExecutionCondition;
 import org.sourcegrade.jagr.api.testing.extension.TestCycleResolver;
 import org.tudalgo.algoutils.tutor.general.assertions.Assertions3;
+import org.tudalgo.algoutils.tutor.general.assertions.Context;
+import org.tudalgo.algoutils.tutor.general.json.JsonParameterSet;
+import org.tudalgo.algoutils.tutor.general.json.JsonParameterSetTest;
 import org.tudalgo.algoutils.tutor.general.match.Matcher;
 import org.tudalgo.algoutils.tutor.general.reflections.BasicMethodLink;
 import org.tudalgo.algoutils.tutor.general.reflections.Modifier;
@@ -54,14 +58,13 @@ public class H3_2_Test extends H04TestBase {
         );
     }
 
-    @Test
-    public void testOnFieldClick() throws Throwable {
-        setupWorld(5, 5);
+    @ParameterizedTest
+    @JsonParameterSetTest(value = "H3_2.json", customConverters = "customConverters")
+    public void testOnFieldClick(JsonParameterSet params) throws Throwable {
+        setupWorld(params.getInt("worldWidth"), params.getInt("worldHeight"));
         var link = StudentLinks.MOUSE_FIELD_SELECTOR_LINK.get();
         var mouseFieldSelectorInstance = Mockito.mock(link.reflection(), Mockito.CALLS_REAL_METHODS);
         var onFieldClickMethod = BasicMethodLink.of(FieldClickListener.class.getMethod("onFieldClick", FieldClickEvent.class));
-        var field = World.getGlobalWorld().getField(4, 2);
-        var fieldClickEvent = new FieldClickEvent(field);
         var fieldSelectionListenerCalled = new AtomicBoolean(false);
         var fieldSelectionListener = Mockito.mock(StudentLinks.FIELD_SELECTOR_LISTENER_LINK.get().reflection(), (Answer<Object>) invocationOnMock -> {
             if (invocationOnMock.getMethod().equals(StudentLinks.FIELD_SELECTOR_LISTENER_ON_FIELD_SELECTION_LINK.get().reflection())) {
@@ -76,15 +79,21 @@ public class H3_2_Test extends H04TestBase {
         var listenerField = link.getField(Matcher.of(fieldLink -> fieldLink.type().equals(StudentLinks.FIELD_SELECTOR_LISTENER_LINK.get())));
         listenerField.set(mouseFieldSelectorInstance, fieldSelectionListener);
 
-        var context = contextBuilder()
-            .add("fieldClickEvent", fieldClickEvent)
-            .build();
+        Integer[][] fieldSelections = params.get("selections", Integer[][].class);
+        Context context = null;
+        FieldClickEvent fieldClickEvent = null;
+        for (int i = 0; i < fieldSelections.length; i++) {
+            context = contextBuilder()
+                .add("field x coordinate", fieldSelections[i][0])
+                .add("field y coordinate", fieldSelections[i][1])
+                .build();
+            fieldClickEvent = new FieldClickEvent(World.getGlobalWorld().getField(fieldSelections[i][0], fieldSelections[i][1]));
 
-        // TODO: test different fields
+            onFieldClickMethod.invoke(mouseFieldSelectorInstance, fieldClickEvent);
+            assertFalse(fieldSelectionListenerCalled.get(), context, result ->
+                "onFieldClick(FieldClickEvent) called the registered FieldSelectionListener but it wasn't supposed to (first click)");
+        }
 
-        onFieldClickMethod.invoke(mouseFieldSelectorInstance, fieldClickEvent);
-        assertFalse(fieldSelectionListenerCalled.get(), context, result ->
-            "onFieldClick(FieldClickEvent) called the registered FieldSelectionListener but it wasn't supposed to (first click)");
         onFieldClickMethod.invoke(mouseFieldSelectorInstance, fieldClickEvent);
         assertTrue(fieldSelectionListenerCalled.get(), context, result ->
             "onFieldClick(FieldClickEvent) did not call the registered FieldSelectionListener but it was supposed to (second click)");

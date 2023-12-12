@@ -1,12 +1,14 @@
 package h04;
 
-import fopbot.KeyPressListener;
+import fopbot.*;
 import h04.util.H04TestBase;
 import h04.util.reflect.StudentLinks;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
 import org.mockito.Mockito;
+import org.mockito.stubbing.Answer;
 import org.objectweb.asm.*;
 import org.sourcegrade.jagr.api.rubric.TestForSubmission;
 import org.sourcegrade.jagr.api.testing.ClassTransformer;
@@ -14,11 +16,17 @@ import org.sourcegrade.jagr.api.testing.TestCycle;
 import org.sourcegrade.jagr.api.testing.extension.JagrExecutionCondition;
 import org.sourcegrade.jagr.api.testing.extension.TestCycleResolver;
 import org.tudalgo.algoutils.tutor.general.assertions.Assertions3;
+import org.tudalgo.algoutils.tutor.general.assertions.Context;
+import org.tudalgo.algoutils.tutor.general.json.JsonParameterSet;
+import org.tudalgo.algoutils.tutor.general.json.JsonParameterSetTest;
 import org.tudalgo.algoutils.tutor.general.match.Matcher;
+import org.tudalgo.algoutils.tutor.general.reflections.BasicMethodLink;
 import org.tudalgo.algoutils.tutor.general.reflections.Modifier;
 
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
+
 import static org.tudalgo.algoutils.tutor.general.assertions.Assertions2.*;
-import static org.tudalgo.algoutils.tutor.general.assertions.Assertions2.emptyContext;
 
 @TestForSubmission
 public class H3_3_Test extends H04TestBase {
@@ -49,9 +57,63 @@ public class H3_3_Test extends H04TestBase {
         );
     }
 
-    @Test
-    public void testOnKeyPress() throws Throwable {
-        // TODO: implement test
+    @ParameterizedTest
+    @ExtendWith(JagrExecutionCondition.class)
+    @JsonParameterSetTest(value = "H3_3.json", customConverters = "customConverters")
+    public void testOnKeyPress(JsonParameterSet params) throws Throwable {
+        setupWorld(params.getInt("worldWidth"), params.getInt("worldHeight"));
+        Key[] keys = Key.values();
+        Map<Key, KeyPressEvent> keyPressEvents = Map.of(
+            Key.SPACE, new KeyPressEvent(World.getGlobalWorld(), Key.SPACE),
+            Key.LEFT, new KeyPressEvent(World.getGlobalWorld(), Key.LEFT),
+            Key.RIGHT, new KeyPressEvent(World.getGlobalWorld(), Key.RIGHT),
+            Key.UP, new KeyPressEvent(World.getGlobalWorld(), Key.UP),
+            Key.DOWN, new KeyPressEvent(World.getGlobalWorld(), Key.DOWN)
+        );
+
+        var link = StudentLinks.KEYBOARD_FIELD_SELECTOR_LINK.get();
+
+        var keyboardFieldSelectorInstance = Mockito.mock(link.reflection(), Mockito.CALLS_REAL_METHODS);
+        var onKeyPressMethod = BasicMethodLink.of(KeyPressListener.class.getMethod("onKeyPress", KeyPressEvent.class));
+
+        var actualX = new AtomicInteger();
+        var actualY = new AtomicInteger();
+        var fieldSelectionListener = Mockito.mock(StudentLinks.FIELD_SELECTOR_LISTENER_LINK.get().reflection(), (Answer<Object>) invocationOnMock -> {
+            if (invocationOnMock.getMethod().equals(StudentLinks.FIELD_SELECTOR_LISTENER_ON_FIELD_SELECTION_LINK.get().reflection())) {
+                Field field = invocationOnMock.getArgument(0);
+                actualX.set(field.getX());
+                actualY.set(field.getY());
+                return null;
+            } else {
+                return invocationOnMock.callRealMethod();
+            }
+        });
+
+        // set FieldSelectionListener in mocked class
+        var listenerField = link.getField(Matcher.of(fieldLink -> fieldLink.type().equals(StudentLinks.FIELD_SELECTOR_LISTENER_LINK.get())));
+        listenerField.set(keyboardFieldSelectorInstance, fieldSelectionListener);
+
+        onKeyPressMethod.invoke(keyboardFieldSelectorInstance, keyPressEvents.get(Key.SPACE));
+        for (Integer keyCode : params.get("movements", Integer[].class)) {
+            Key key = keys[keyCode];
+
+            onKeyPressMethod.invoke(keyboardFieldSelectorInstance, keyPressEvents.get(key));
+        }
+        onKeyPressMethod.invoke(keyboardFieldSelectorInstance, keyPressEvents.get(Key.SPACE));
+
+        Context context = params.toContext();
+        assertEquals(
+            params.getInt("expectedX"),
+            actualX.get(),
+            context,
+            result -> "X coordinate of selected field does not equal x coordinate of expected field"
+        );
+        assertEquals(
+            params.getInt("expectedY"),
+            actualY.get(),
+            context,
+            result -> "Y coordinate of selected field does not equal y coordinate of expected field"
+        );
     }
 
     @Test

@@ -1,8 +1,14 @@
 package h04;
 
+import h04.util.reflect.Global;
+import org.objectweb.asm.*;
 import org.sourcegrade.jagr.api.rubric.*;
+import org.sourcegrade.jagr.api.testing.ClassTransformer;
+import org.sourcegrade.jagr.api.testing.RubricConfiguration;
 import org.sourcegrade.jagr.api.testing.TestCycle;
 import org.tudalgo.algoutils.tutor.general.json.JsonParameterSet;
+import org.tudalgo.algoutils.tutor.general.match.Matcher;
+import org.tudalgo.algoutils.tutor.general.match.Stringifiable;
 
 import static org.tudalgo.algoutils.tutor.general.jagr.RubricUtils.criterion;
 import static org.tudalgo.algoutils.tutor.general.jagr.RubricUtils.defaultCriterionBuilder;
@@ -164,7 +170,7 @@ public class H04_RubricProvider implements RubricProvider {
                             ),
                             criterion(
                                 "Die Methode onFieldClick() ist vollständig korrekt.",
-                                JUnitTestRef.ofMethod(() -> H3_2_Test.class.getDeclaredMethod("testOnFieldClick"))
+                                JUnitTestRef.ofMethod(() -> H3_2_Test.class.getDeclaredMethod("testOnFieldClick", JsonParameterSet.class))
                             )
                         )
                         .build(),
@@ -185,7 +191,7 @@ public class H04_RubricProvider implements RubricProvider {
                             ),
                             criterion(
                                 "Die Methode onKeyPressed() ist vollständig korrekt.",
-                                JUnitTestRef.ofMethod(() -> H3_3_Test.class.getDeclaredMethod("testOnKeyPress"))
+                                JUnitTestRef.ofMethod(() -> H3_3_Test.class.getDeclaredMethod("testOnKeyPress", JsonParameterSet.class))
                             )
                         )
                         .build()
@@ -220,5 +226,53 @@ public class H04_RubricProvider implements RubricProvider {
     @Override
     public Rubric getRubric() {
         return RUBRIC;
+    }
+
+    @Override
+    public void configure(RubricConfiguration configuration) {
+        Matcher<Stringifiable> classNameMatcher = Global.similarityMatcher("h04/selection/KeyboardFieldSelector");
+        configuration.addTransformer(new ClassTransformer() {
+            @Override
+            public String getName() {
+                return "KeyboardFieldSelectorTransformer";
+            }
+
+            @Override
+            public int getWriterFlags() {
+                return ClassWriter.COMPUTE_MAXS | ClassWriter.COMPUTE_FRAMES;
+            }
+
+            @Override
+            public void transform(ClassReader reader, ClassWriter writer) {
+                if (classNameMatcher.match(reader::getClassName).matched()) {
+                    reader.accept(new ClassVisitor(Opcodes.ASM9, writer) {
+                        @Override
+                        public MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
+                            if (name.equals("onKeyPress") && descriptor.equals("(Lfopbot/KeyPressEvent;)V")) {
+                                return new MethodVisitor(Opcodes.ASM9, super.visitMethod(access, name, descriptor, signature, exceptions)) {
+                                    @Override
+                                    public void visitMethodInsn(int opcode, String owner, String name, String descriptor, boolean isInterface) {
+                                        if (opcode == Opcodes.INVOKEVIRTUAL &&
+                                            owner.equals("fopbot/Field") &&
+                                            name.equals("setFieldColor") &&
+                                            descriptor.equals("(Ljava/awt/Color;)V")) {
+                                            super.visitInsn(Opcodes.POP);
+                                            super.visitInsn(Opcodes.POP);
+                                        } else {
+                                            super.visitMethodInsn(opcode, owner, name, descriptor, isInterface);
+                                        }
+                                    }
+                                };
+                            } else {
+                                return super.visitMethod(access, name, descriptor, signature, exceptions);
+                            }
+                        }
+                    }, ClassReader.SKIP_DEBUG | ClassReader.SKIP_FRAMES);
+                } else {
+                    reader.accept(writer, ClassReader.SKIP_DEBUG | ClassReader.SKIP_FRAMES);
+                }
+            }
+        });
+        RubricProvider.super.configure(configuration);
     }
 }
