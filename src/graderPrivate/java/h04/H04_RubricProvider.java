@@ -94,10 +94,12 @@ public class H04_RubricProvider implements RubricProvider {
                         .shortDescription("H2.1 | Interface für Field Selection Listeners")
                         .addChildCriteria(
                             criterion(
-                                "Das Interface MoveStrategy wurde korrekt deklariert."
+                                "Das Interface MoveStrategy wurde korrekt deklariert.",
+                                JUnitTestRef.ofMethod(() -> H2_1_Test.class.getDeclaredMethod("testDeclaredCorrectly"))
                             ),
                             criterion(
-                                "Die Methode onFieldSelection() wurde korrekt deklariert."
+                                "Die Methode onFieldSelection() wurde korrekt deklariert.",
+                                JUnitTestRef.ofMethod(() -> H2_1_Test.class.getDeclaredMethod("testOnFieldSelectionDeclaredCorrectly"))
                             )
                         )
                         .build(),
@@ -105,16 +107,24 @@ public class H04_RubricProvider implements RubricProvider {
                         .shortDescription("H2.2 | Robot Mover")
                         .addChildCriteria(
                             criterion(
-                                "Die Klasse RobotMover wurde korrekt deklariert."
+                                "Die Klasse RobotMover wurde korrekt deklariert.",
+                                JUnitTestRef.ofMethod(() -> H2_2_Test.class.getDeclaredMethod("testDeclaredCorrectly")),
+                                JUnitTestRef.ofMethod(() -> H2_2_Test.class.getDeclaredMethod("testAddRobotDeclaration"))
                             ),
                             criterion(
-                                "Der Konstruktor ist vollständig korrekt."
+                                "Der Konstruktor ist vollständig korrekt.",
+                                JUnitTestRef.ofMethod(() -> H2_2_Test.class.getDeclaredMethod("testConstructor"))
                             ),
                             criterion(
-                                "Die Methode addRobot() ist vollständig korrekt."
+                                "Die Methode addRobot() ist vollständig korrekt.",
+                                JUnitTestRef.or(
+                                    JUnitTestRef.ofMethod(() -> H2_2_Test.class.getDeclaredMethod("testAddRobotFunctionality1")),
+                                    JUnitTestRef.ofMethod(() -> H2_2_Test.class.getDeclaredMethod("testAddRobotFunctionality2"))
+                                )
                             ),
                             criterion(
-                                "Die Methode onFieldSelection() ist vollständig korrekt."
+                                "Die Methode onFieldSelection() ist vollständig korrekt.",
+                                JUnitTestRef.ofMethod(() -> H2_2_Test.class.getDeclaredMethod("testOnFieldSelection"))
                             )
                         )
                         .build(),
@@ -128,10 +138,10 @@ public class H04_RubricProvider implements RubricProvider {
                                 "Der Konstruktor ist vollständig korrekt."
                             ),
                             criterion(
-                                "Die Methode onFieldSelection() fuktioniert korrekt, wenn die im Konstruktor übergebene MovementStrategy eine MoveStrategyWithCounter ist."
+                                "Die Methode onFieldSelection() funktioniert korrekt, wenn die im Konstruktor übergebene MovementStrategy eine MoveStrategyWithCounter ist."
                             ),
                             criterion(
-                                "Die Methode onFieldSelection() fuktioniert korrekt, wenn die im Konstruktor übergebene MovementStrategy keine MoveStrategyWithCounter ist."
+                                "Die Methode onFieldSelection() funktioniert korrekt, wenn die im Konstruktor übergebene MovementStrategy keine MoveStrategyWithCounter ist."
                             )
                         )
                         .build()

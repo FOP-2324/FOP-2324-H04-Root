@@ -1,7 +1,6 @@
 package h04;
 
 import fopbot.Field;
-import fopbot.Robot;
 import h04.util.H04TestBase;
 import h04.util.TestConstants;
 import h04.util.reflect.StudentLinks;
@@ -35,7 +34,7 @@ public class H2_1_Test extends H04TestBase {
     }
 
     @Test
-    public void testStartMethodDeclaredCorrectly() {
+    public void testOnFieldSelectionDeclaredCorrectly() {
         final var link = StudentLinks.FIELD_SELECTOR_LISTENER_ON_FIELD_SELECTION_LINK.get();
         Assertions.assertEquals(link.reflection().getName(), "onFieldSelection", "Wrong identifier.");
         Assertions3.assertCorrectModifiers(link, Modifier.PUBLIC);
