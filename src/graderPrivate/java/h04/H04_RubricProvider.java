@@ -132,16 +132,20 @@ public class H04_RubricProvider implements RubricProvider {
                         .shortDescription("H2.3 | Moveable Robot")
                         .addChildCriteria(
                             criterion(
-                                "Die Klasse MoveableRobot wurde korrekt deklariert."
+                                "Die Klasse MoveableRobot wurde korrekt deklariert.",
+                                JUnitTestRef.ofMethod(() -> H2_3_Test.class.getDeclaredMethod("testDeclaredCorrectly"))
                             ),
                             criterion(
-                                "Der Konstruktor ist vollständig korrekt."
+                                "Der Konstruktor ist vollständig korrekt.",
+                                JUnitTestRef.ofMethod(() -> H2_3_Test.class.getDeclaredMethod("testConstructor"))
                             ),
                             criterion(
-                                "Die Methode onFieldSelection() funktioniert korrekt, wenn die im Konstruktor übergebene MovementStrategy eine MoveStrategyWithCounter ist."
+                                "Die Methode onFieldSelection() funktioniert korrekt, wenn die im Konstruktor übergebene MovementStrategy eine MoveStrategyWithCounter ist.",
+                                JUnitTestRef.ofMethod(() -> H2_3_Test.class.getDeclaredMethod("testOnFieldSelectionAlt"))
                             ),
                             criterion(
-                                "Die Methode onFieldSelection() funktioniert korrekt, wenn die im Konstruktor übergebene MovementStrategy keine MoveStrategyWithCounter ist."
+                                "Die Methode onFieldSelection() funktioniert korrekt, wenn die im Konstruktor übergebene MovementStrategy keine MoveStrategyWithCounter ist.",
+                                JUnitTestRef.ofMethod(() -> H2_3_Test.class.getDeclaredMethod("testOnFieldSelectionNormal"))
                             )
                         )
                         .build()
