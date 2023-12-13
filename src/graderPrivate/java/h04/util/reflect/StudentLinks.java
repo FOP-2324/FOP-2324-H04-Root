@@ -153,6 +153,25 @@ public class StudentLinks {
         MOVE_STRATEGY_LINK.get()
     );
 
+    // MoveableRobot
+    public static final Supplier<BasicTypeLink> MOVEABLE_ROBOT_LINK = typeLinkSup("MoveableRobot");
+    public static final Supplier<BasicFieldLink> MOVEABLE_ROBOT_MOVE_STRATEGY_LINK = fieldLinkSup(
+        MOVEABLE_ROBOT_LINK.get(),
+        BasicReflectionMatchers.sameType(MOVE_STRATEGY_LINK.get())
+    );
+    public static final Supplier<BasicMethodLink> MOVEABLE_ROBOT_ADD_ROBOT_LINK = methodLinkSup(
+        MOVEABLE_ROBOT_LINK.get(),
+        "addRobot"
+    );
+    public static final Supplier<BasicMethodLink> MOVEABLE_ROBOT_ON_FIELD_SELECTION_LINK = methodLinkSup(
+        MOVEABLE_ROBOT_LINK.get(),
+        "onFieldSelection"
+    );
+    public static final Supplier<BasicConstructorLink> MOVEABLE_ROBOT_CONSTRUCTOR_LINK = constructorLinkSup(
+        MOVEABLE_ROBOT_LINK.get(),
+        MOVE_STRATEGY_LINK.get()
+    );
+
     // FieldSelector
     public static final Supplier<BasicTypeLink> FIELD_SELECTOR_LINK = typeLinkSup("FieldSelector");
     public static final Supplier<BasicMethodLink> FIELD_SELECTOR_SET_FIELD_SELECTION_LISTENER_LINK = methodLinkSup(
@@ -162,7 +181,15 @@ public class StudentLinks {
 
     // MouseFieldSelector
     public static final Supplier<BasicTypeLink> MOUSE_FIELD_SELECTOR_LINK = typeLinkSup("MouseFieldSelector");
+    public static final Supplier<BasicMethodLink> MOUSE_FIELD_SELECTOR_SET_FIELD_SELECTION_LISTENER_LINK = methodLinkSup(
+        MOUSE_FIELD_SELECTOR_LINK.get(),
+        "setFieldSelectionListener"
+    );
 
     // KeyboardFieldSelector
     public static final Supplier<BasicTypeLink> KEYBOARD_FIELD_SELECTOR_LINK = typeLinkSup("KeyboardFieldSelector");
+    public static final Supplier<BasicMethodLink> KEYBOARD_FIELD_SELECTOR_SET_FIELD_SELECTION_LISTENER_LINK = methodLinkSup(
+        KEYBOARD_FIELD_SELECTOR_LINK.get(),
+        "setFieldSelectionListener"
+    );
 }

@@ -201,7 +201,9 @@ public class H04_RubricProvider implements RubricProvider {
                 .shortDescription("H4 | It’s better together!")
                 .addChildCriteria(
                     criterion(
-                        "Die Klasse Main führt die geforderten Aktionen korrekt aus."
+                        "Die Klasse Main führt die geforderten Aktionen korrekt aus.",
+                        JUnitTestRef.ofMethod(() -> H4_Test.class.getDeclaredMethod("testMain01")),
+                        JUnitTestRef.ofMethod(() -> H4_Test.class.getDeclaredMethod("testMain02"))
                     )
                 )
                 .build(),
