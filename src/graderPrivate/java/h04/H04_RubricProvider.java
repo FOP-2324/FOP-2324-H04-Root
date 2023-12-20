@@ -246,7 +246,6 @@ public class H04_RubricProvider implements RubricProvider {
 
     @Override
     public void configure(RubricConfiguration configuration) {
-        Matcher<Stringifiable> classNameMatcher = Global.similarityMatcher("h04/selection/KeyboardFieldSelector");
         configuration.addTransformer(new ClassTransformer() {
             @Override
             public String getName() {
@@ -260,11 +259,34 @@ public class H04_RubricProvider implements RubricProvider {
 
             @Override
             public void transform(ClassReader reader, ClassWriter writer) {
-                if (classNameMatcher.match(reader::getClassName).matched()) {
+                if (Global.similarityMatcher("h04/selection/KeyboardFieldSelector").match(reader::getClassName).matched()) {
                     reader.accept(new ClassVisitor(Opcodes.ASM9, writer) {
                         @Override
                         public MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
-                            if (name.equals("onKeyPress") && descriptor.equals("(Lfopbot/KeyPressEvent;)V")) {
+                            if (name.equals("<init>") &&
+                                descriptor.equals("()V")) {
+                                return new MethodVisitor(Opcodes.ASM9, super.visitMethod(access, name, descriptor, signature, exceptions)) {
+                                    @Override
+                                    public void visitMethodInsn(int opcode, String owner, String name, String descriptor, boolean isInterface) {
+                                        if (opcode == Opcodes.INVOKESTATIC &&
+                                            owner.equals("fopbot/World") &&
+                                            name.equals("addKeyPressListener") &&
+                                            descriptor.equals("(Lfopbot/KeyPressListener;)V")) {
+                                            super.visitFieldInsn(Opcodes.PUTSTATIC,
+                                                "h04/H3_3_Test",
+                                                "KEY_PRESS_LISTENER",
+                                                "Ljava/lang/Object;");
+                                            super.visitInsn(Opcodes.ICONST_1);
+                                            super.visitFieldInsn(Opcodes.PUTSTATIC,
+                                                "h04/H3_3_Test",
+                                                "CALLED_ADD_KEY_PRESS_LISTENER",
+                                                "Z");
+                                        } else {
+                                            super.visitMethodInsn(opcode, owner, name, descriptor, isInterface);
+                                        }
+                                    }
+                                };
+                            } else if (name.equals("onKeyPress") && descriptor.equals("(Lfopbot/KeyPressEvent;)V")) {
                                 return new MethodVisitor(Opcodes.ASM9, super.visitMethod(access, name, descriptor, signature, exceptions)) {
                                     @Override
                                     public void visitMethodInsn(int opcode, String owner, String name, String descriptor, boolean isInterface) {
@@ -287,6 +309,57 @@ public class H04_RubricProvider implements RubricProvider {
                 } else {
                     reader.accept(writer, ClassReader.SKIP_DEBUG | ClassReader.SKIP_FRAMES);
                 }
+            }
+        });
+        configuration.addTransformer(new ClassTransformer() {
+            @Override
+            public String getName() {
+                return "MouseFieldSelectorTransformer";
+            }
+
+            @Override
+            public int getWriterFlags() {
+                return ClassWriter.COMPUTE_MAXS | ClassWriter.COMPUTE_FRAMES;
+            }
+
+            @Override
+            public void transform(ClassReader reader, ClassWriter writer) {
+                if (!Global.similarityMatcher("h04/selection/MouseFieldSelector").match(reader::getClassName).matched()) {
+                    reader.accept(writer, ClassReader.SKIP_CODE | ClassReader.SKIP_DEBUG | ClassReader.SKIP_FRAMES);
+                    return;
+                }
+
+                reader.accept(new ClassVisitor(Opcodes.ASM9, writer) {
+                    @Override
+                    public MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
+                        if (name.equals("<init>") &&
+                            descriptor.equals("()V")) {
+                            return new MethodVisitor(Opcodes.ASM9, super.visitMethod(access, name, descriptor, signature, exceptions)) {
+                                @Override
+                                public void visitMethodInsn(int opcode, String owner, String name, String descriptor, boolean isInterface) {
+                                    if (opcode == Opcodes.INVOKESTATIC &&
+                                        owner.equals("fopbot/World") &&
+                                        name.equals("addFieldClickListener") &&
+                                        descriptor.equals("(Lfopbot/FieldClickListener;)V")) {
+                                        super.visitFieldInsn(Opcodes.PUTSTATIC,
+                                            "h04/H3_2_Test",
+                                            "FIELD_CLICK_LISTENER",
+                                            "Ljava/lang/Object;");
+                                        super.visitInsn(Opcodes.ICONST_1);
+                                        super.visitFieldInsn(Opcodes.PUTSTATIC,
+                                            "h04/H3_2_Test",
+                                            "CALLED_ADD_FIELD_CLICK_LISTENER",
+                                            "Z");
+                                    } else {
+                                        super.visitMethodInsn(opcode, owner, name, descriptor, isInterface);
+                                    }
+                                }
+                            };
+                        } else {
+                            return super.visitMethod(access, name, descriptor, signature, exceptions);
+                        }
+                    }
+                }, ClassReader.SKIP_DEBUG | ClassReader.SKIP_FRAMES);
             }
         });
         RubricProvider.super.configure(configuration);

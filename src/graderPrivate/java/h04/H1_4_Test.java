@@ -39,7 +39,6 @@ public class H1_4_Test extends H04TestBase {
         Assertions3.assertCorrectModifiers(link, Modifier.PUBLIC, Modifier.CLASS, Modifier.NON_ABSTRACT);
         Assertions3.assertCorrectInterfaces(
             link,
-            StudentLinks.MOVE_STRATEGY_LINK.get(),
             StudentLinks.MOVE_STRATEGY_WITH_COUNTER_LINK.get()
         );
     }
