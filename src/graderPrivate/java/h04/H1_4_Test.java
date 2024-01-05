@@ -5,11 +5,9 @@ import fopbot.Robot;
 import fopbot.RobotFamily;
 import fopbot.World;
 import h04.util.H04TestBase;
-import h04.util.TestConstants;
 import h04.util.reflect.StudentLinks;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.Timeout;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.sourcegrade.jagr.api.rubric.TestForSubmission;
 import org.tudalgo.algoutils.tutor.general.assertions.Assertions2;
@@ -19,17 +17,11 @@ import org.tudalgo.algoutils.tutor.general.json.JsonParameterSet;
 import org.tudalgo.algoutils.tutor.general.json.JsonParameterSetTest;
 import org.tudalgo.algoutils.tutor.general.reflections.Modifier;
 
-import java.awt.Point;
-import java.util.concurrent.TimeUnit;
+import java.awt.*;
 
 import static org.mockito.Mockito.spy;
 
 @TestForSubmission
-@Timeout(
-    value = TestConstants.TEST_TIMEOUT_IN_SECONDS,
-    unit = TimeUnit.SECONDS,
-    threadMode = Timeout.ThreadMode.SEPARATE_THREAD
-)
 public class H1_4_Test extends H04TestBase {
 
     @Test

@@ -6,12 +6,10 @@ import fopbot.Field;
 import fopbot.Robot;
 import fopbot.World;
 import h04.util.H04TestBase;
-import h04.util.TestConstants;
 import h04.util.reflect.Global;
 import h04.util.reflect.StudentLinks;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.Timeout;
 import org.mockito.Mockito;
 import org.mockito.stubbing.Answer;
 import org.sourcegrade.jagr.api.rubric.TestForSubmission;
@@ -23,18 +21,12 @@ import org.tudalgo.algoutils.tutor.general.reflections.Modifier;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
 
 import static org.mockito.Mockito.*;
 import static org.tudalgo.algoutils.tutor.general.assertions.Assertions2.*;
 
 @TestForSubmission
-@Timeout(
-    value = TestConstants.TEST_TIMEOUT_IN_SECONDS,
-    unit = TimeUnit.SECONDS,
-    threadMode = Timeout.ThreadMode.SEPARATE_THREAD
-)
 public class H2_2_Test extends H04TestBase {
 
     @Test

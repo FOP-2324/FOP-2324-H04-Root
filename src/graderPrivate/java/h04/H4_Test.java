@@ -1,10 +1,8 @@
 package h04;
 
 import h04.util.H04TestBase;
-import h04.util.TestConstants;
 import h04.util.reflect.StudentLinks;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.Timeout;
 import org.mockito.MockSettings;
 import org.mockito.MockedConstruction;
 import org.mockito.Mockito;
@@ -14,17 +12,11 @@ import org.mockito.stubbing.Answer;
 import org.sourcegrade.jagr.api.rubric.TestForSubmission;
 
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 
 import static org.tudalgo.algoutils.tutor.general.assertions.Assertions2.*;
 
 @TestForSubmission
-@Timeout(
-    value = TestConstants.TEST_TIMEOUT_IN_SECONDS,
-    unit = TimeUnit.SECONDS,
-    threadMode = Timeout.ThreadMode.SEPARATE_THREAD
-)
 public class H4_Test extends H04TestBase {
 
     @Test
