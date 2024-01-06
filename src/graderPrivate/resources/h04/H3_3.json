@@ -1,0 +1,30 @@
+[
+  {
+    "worldWidth": 5,
+    "worldHeight": 5,
+    "movements": [29],
+    "expectedX": 0,
+    "expectedY": 1
+  },
+  {
+    "worldWidth": 5,
+    "worldHeight": 5,
+    "movements": [28, 29],
+    "expectedX": 1,
+    "expectedY": 1
+  },
+  {
+    "worldWidth": 5,
+    "worldHeight": 5,
+    "movements": [30],
+    "expectedX": 0,
+    "expectedY": 4
+  },
+  {
+    "worldWidth": 5,
+    "worldHeight": 5,
+    "movements": [30, 27],
+    "expectedX": 4,
+    "expectedY": 4
+  }
+]

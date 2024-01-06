@@ -44,6 +44,11 @@ jagr {
                 implementation(libs.junit.pioneer)
             }
         }
+        val graderJavadoc by creating {
+            parent(graderPrivate)
+            graderName.set("H04-Javadoc")
+            rubricProviderName.set("h04.H04_RubricProvider_Javadoc")
+        }
     }
 }
 
