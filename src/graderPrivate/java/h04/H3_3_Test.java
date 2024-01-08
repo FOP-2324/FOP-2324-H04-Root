@@ -90,6 +90,9 @@ public class H3_3_Test extends H04TestBase {
         // set FieldSelectionListener in mocked class
         var listenerField = link.getField(Matcher.of(fieldLink -> fieldLink.type().equals(StudentLinks.FIELD_SELECTOR_LISTENER_LINK.get())));
         listenerField.set(keyboardFieldSelectorInstance, fieldSelectionListener);
+        // set Field in mocked class
+        var fieldField = link.getField(Matcher.of(fieldLink -> fieldLink.type().reflection() == Field.class));
+        fieldField.set(keyboardFieldSelectorInstance, World.getGlobalWorld().getField(0, 0));
 
         onKeyPressMethod.invoke(keyboardFieldSelectorInstance, keyPressEvents.get(Key.SPACE));
         for (Integer keyCode : params.get("movements", Integer[].class)) {
