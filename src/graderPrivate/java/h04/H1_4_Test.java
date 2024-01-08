@@ -9,6 +9,7 @@ import h04.util.reflect.StudentLinks;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.opentest4j.AssertionFailedError;
 import org.sourcegrade.jagr.api.rubric.TestForSubmission;
 import org.tudalgo.algoutils.tutor.general.assertions.Assertions2;
 import org.tudalgo.algoutils.tutor.general.assertions.Assertions3;
@@ -80,7 +81,13 @@ public class H1_4_Test extends H04TestBase {
         var context = cb.build();
 
         if (testStart) {
-            Assertions3.assertImplementsInterfaceMethod(classLink, StudentLinks.MOVE_STRATEGY_START_LINK.get(), strict);
+            try {
+                Assertions3.assertImplementsInterfaceMethod(classLink, StudentLinks.MOVE_STRATEGY_START_LINK.get(), strict);
+            } catch (AssertionFailedError e) {
+                if (!e.getMessage().contains("@Override")) {
+                    throw e;
+                }
+            }
             Assertions4.assertElementsNotUsed(
                 link.getCtElement(),
                 context,
@@ -145,7 +152,13 @@ public class H1_4_Test extends H04TestBase {
         if (testGetMoveCount) {
             final var link2 = StudentLinks.MOVE_BY_WALK_GET_MOVE_COUNT_LINK.get();
             final var expectedMoveCount = ((MovementCountingRobot) robot).getMoveCount();
-            Assertions3.assertImplementsInterfaceMethod(classLink, StudentLinks.MOVE_STRATEGY_WITH_COUNTER_GET_MOVE_COUNT_LINK.get());
+            try {
+                Assertions3.assertImplementsInterfaceMethod(classLink, StudentLinks.MOVE_STRATEGY_WITH_COUNTER_GET_MOVE_COUNT_LINK.get());
+            } catch (AssertionFailedError e) {
+                if (!e.getMessage().contains("@Override")) {
+                    throw e;
+                }
+            }
             final var context2 = Assertions2.contextBuilder()
                 .add(paramsContext)
                 .add(context)

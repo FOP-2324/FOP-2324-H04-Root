@@ -2,16 +2,16 @@ package h04;
 
 import h04.util.reflect.Global;
 import org.objectweb.asm.*;
-import org.sourcegrade.jagr.api.rubric.*;
+import org.sourcegrade.jagr.api.rubric.Criterion;
+import org.sourcegrade.jagr.api.rubric.JUnitTestRef;
+import org.sourcegrade.jagr.api.rubric.Rubric;
+import org.sourcegrade.jagr.api.rubric.RubricProvider;
 import org.sourcegrade.jagr.api.testing.ClassTransformer;
 import org.sourcegrade.jagr.api.testing.RubricConfiguration;
 import org.sourcegrade.jagr.api.testing.TestCycle;
 import org.tudalgo.algoutils.tutor.general.json.JsonParameterSet;
-import org.tudalgo.algoutils.tutor.general.match.Matcher;
-import org.tudalgo.algoutils.tutor.general.match.Stringifiable;
 
 import static org.tudalgo.algoutils.tutor.general.jagr.RubricUtils.criterion;
-import static org.tudalgo.algoutils.tutor.general.jagr.RubricUtils.defaultCriterionBuilder;
 
 public class H04_RubricProvider implements RubricProvider {
 
@@ -279,6 +279,14 @@ public class H04_RubricProvider implements RubricProvider {
                                             owner.equals("fopbot/Field") &&
                                             name.equals("setFieldColor") &&
                                             descriptor.equals("(Ljava/awt/Color;)V")) {
+                                            super.visitInsn(Opcodes.POP);
+                                            super.visitInsn(Opcodes.POP);
+                                        } else if (opcode == Opcodes.INVOKEVIRTUAL &&
+                                            owner.equals("fopbot/KarelWorld") &&
+                                            name.equals("setFieldColor") &&
+                                            descriptor.equals("(IILjava/awt/Color;)V")) {
+                                            super.visitInsn(Opcodes.POP);
+                                            super.visitInsn(Opcodes.POP);
                                             super.visitInsn(Opcodes.POP);
                                             super.visitInsn(Opcodes.POP);
                                         } else {

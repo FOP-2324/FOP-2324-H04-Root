@@ -149,9 +149,13 @@ public class StudentLinks {
 
     // RobotMover
     public static final Supplier<BasicTypeLink> ROBOT_MOVER_LINK = typeLinkSup("RobotMover");
-    public static final Supplier<BasicFieldLink> ROBOT_MOVER_ROBOTS_LINK = fieldLinkSup(
+    public static final Supplier<BasicFieldLink> ROBOT_MOVER_ROBOTS_ARRAY_LINK = fieldLinkSup(
         ROBOT_MOVER_LINK,
         arrayLikeMatcher(Robot.class)
+    );
+    public static final Supplier<BasicFieldLink> ROBOT_MOVER_ROBOTS_LIST_LINK = fieldLinkSup(
+        ROBOT_MOVER_LINK,
+        Matcher.of(fieldLink -> List.class.isAssignableFrom(fieldLink.type().reflection()))
     );
     public static final Supplier<BasicFieldLink> ROBOT_MOVER_MOVE_STRATEGY_LINK = fieldLinkSup(
         ROBOT_MOVER_LINK,

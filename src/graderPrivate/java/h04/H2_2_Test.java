@@ -12,13 +12,16 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.mockito.stubbing.Answer;
+import org.opentest4j.AssertionFailedError;
 import org.sourcegrade.jagr.api.rubric.TestForSubmission;
 import org.tudalgo.algoutils.tutor.general.assertions.Assertions2;
 import org.tudalgo.algoutils.tutor.general.assertions.Assertions3;
 import org.tudalgo.algoutils.tutor.general.match.BasicReflectionMatchers;
+import org.tudalgo.algoutils.tutor.general.reflections.FieldLink;
 import org.tudalgo.algoutils.tutor.general.reflections.Modifier;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Random;
 import java.util.function.Supplier;
@@ -62,7 +65,15 @@ public class H2_2_Test extends H04TestBase {
             StudentLinks.ROBOT_MOVER_CONSTRUCTOR_LINK::get,
             moveStrategy::get
         );
-        final var robotsLink = StudentLinks.ROBOT_MOVER_ROBOTS_LINK.get();
+        FieldLink robotsLink;
+        boolean robotsIsList = false;
+        try {
+            robotsLink = StudentLinks.ROBOT_MOVER_ROBOTS_ARRAY_LINK.get();
+            assertTrue(robotsLink.type().reflection().isArray(), emptyContext(), result -> "");
+        } catch (AssertionFailedError e) {
+            robotsLink = StudentLinks.ROBOT_MOVER_ROBOTS_LIST_LINK.get();
+            robotsIsList = true;
+        }
         final var robotsList = List.of(
             new Robot(1, 1, Direction.UP, 10),
             new Robot(2, 2, Direction.DOWN, 20)
@@ -82,7 +93,8 @@ public class H2_2_Test extends H04TestBase {
             );
             if (usingLocalRobotsArray) {
                 Assertions2.assertTrue(
-                    Global.arrayLikeToList(robotsLink.get(instance), Robot.class).containsAll(tmpRobotsList),
+                    (!robotsIsList ? Global.arrayLikeToList(robotsLink.get(instance), Robot.class) : robotsLink.<List<Robot>>get(instance))
+                        .containsAll(tmpRobotsList),
                     Assertions2.emptyContext(),
                     r -> "the robot was not added correctly"
                 );
@@ -122,13 +134,21 @@ public class H2_2_Test extends H04TestBase {
     }
 
     @Test
-    public void testOnFieldSelection() {
+    public void testOnFieldSelection() throws ReflectiveOperationException {
         int worldWidth = 10;
         int worldHeight = 10;
         setupWorld(worldWidth, worldHeight);
         var link = StudentLinks.ROBOT_MOVER_LINK.get();
         var moveStrategyFieldLink = StudentLinks.ROBOT_MOVER_MOVE_STRATEGY_LINK.get();
-        var robotsField = StudentLinks.ROBOT_MOVER_ROBOTS_LINK.get();
+        FieldLink robotsLink;
+        boolean robotsIsList = false;
+        try {
+            robotsLink = StudentLinks.ROBOT_MOVER_ROBOTS_ARRAY_LINK.get();
+            assertTrue(robotsLink.type().reflection().isArray(), emptyContext(), result -> "");
+        } catch (AssertionFailedError e) {
+            robotsLink = StudentLinks.ROBOT_MOVER_ROBOTS_LIST_LINK.get();
+            robotsIsList = true;
+        }
         var onFieldSelectionLink = StudentLinks.ROBOT_MOVER_ON_FIELD_SELECTION_LINK.get();
 
         var passedRobotsRefs = new ArrayList<Robot>();
@@ -151,12 +171,20 @@ public class H2_2_Test extends H04TestBase {
 
         var instance = mock(link.reflection(), CALLS_REAL_METHODS);
         moveStrategyFieldLink.set(instance, moveStrategyInstance);
-        robotsField.set(instance, robots.toArray(Robot[]::new));
+        if (robotsIsList) {
+            if (robotsLink.type().reflection() != List.class) {
+                robotsLink.set(instance, robotsLink.reflection().getType().getConstructor(Collection.class).newInstance(robots));
+            } else {
+                robotsLink.set(instance, robots);
+            }
+        } else {
+            robotsLink.set(instance, robots.toArray(Robot[]::new));
+        }
 
         var field = new Field(World.getGlobalWorld(), 4, 2);
         var context = contextBuilder()
             .add("moveStrategy", moveStrategyInstance)
-            .add("robots", robotsField.get(instance))
+            .add("robots", robotsLink.get(instance))
             .add("field", "fopbot.Field[x=%d, y=%d]".formatted(field.getX(), field.getY()))
             .build();
         call(() -> onFieldSelectionLink.invoke(instance, field), context, result ->

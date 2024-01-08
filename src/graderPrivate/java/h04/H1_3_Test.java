@@ -8,6 +8,7 @@ import h04.util.reflect.StudentLinks;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.opentest4j.AssertionFailedError;
 import org.sourcegrade.jagr.api.rubric.TestForSubmission;
 import org.tudalgo.algoutils.tutor.general.assertions.Assertions2;
 import org.tudalgo.algoutils.tutor.general.assertions.Assertions3;
@@ -50,7 +51,13 @@ public class H1_3_Test extends H04TestBase {
             .add("field", field);
 
         var context = cb.build();
-        Assertions3.assertImplementsInterfaceMethod(classLink, StudentLinks.MOVE_STRATEGY_START_LINK.get());
+        try {
+            Assertions3.assertImplementsInterfaceMethod(classLink, StudentLinks.MOVE_STRATEGY_START_LINK.get());
+        } catch (AssertionFailedError e) {
+            if (!e.getMessage().contains("@Override")) {
+                throw e;
+            }
+        }
         Assertions4.assertElementsNotUsed(
             link.getCtElement(),
             context,
