@@ -204,7 +204,7 @@ public class H04_RubricProvider implements RubricProvider {
                                 JUnitTestRef.ofMethod(() -> H3_3_Test.class.getDeclaredMethod("testFieldSelectionListener"))
                             ),
                             criterion(
-                                "Die Methode onKeyPressed() ist vollständig korrekt.",
+                                "Die Methode onKeyPress() ist vollständig korrekt.",
                                 JUnitTestRef.ofMethod(() -> H3_3_Test.class.getDeclaredMethod("testOnKeyPress", JsonParameterSet.class))
                             )
                         )
