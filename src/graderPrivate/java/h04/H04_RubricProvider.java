@@ -271,7 +271,7 @@ public class H04_RubricProvider implements RubricProvider {
                                         }
                                     }
                                 };
-                            } else if (name.equals("onKeyPress") && descriptor.equals("(Lfopbot/KeyPressEvent;)V")) {
+                            } else {
                                 return new MethodVisitor(Opcodes.ASM9, super.visitMethod(access, name, descriptor, signature, exceptions)) {
                                     @Override
                                     public void visitMethodInsn(int opcode, String owner, String name, String descriptor, boolean isInterface) {
@@ -294,8 +294,6 @@ public class H04_RubricProvider implements RubricProvider {
                                         }
                                     }
                                 };
-                            } else {
-                                return super.visitMethod(access, name, descriptor, signature, exceptions);
                             }
                         }
                     }, ClassReader.SKIP_DEBUG | ClassReader.SKIP_FRAMES);
