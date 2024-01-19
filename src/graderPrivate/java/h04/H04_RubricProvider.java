@@ -272,28 +272,7 @@ public class H04_RubricProvider implements RubricProvider {
                                     }
                                 };
                             } else {
-                                return new MethodVisitor(Opcodes.ASM9, super.visitMethod(access, name, descriptor, signature, exceptions)) {
-                                    @Override
-                                    public void visitMethodInsn(int opcode, String owner, String name, String descriptor, boolean isInterface) {
-                                        if (opcode == Opcodes.INVOKEVIRTUAL &&
-                                            owner.equals("fopbot/Field") &&
-                                            name.equals("setFieldColor") &&
-                                            descriptor.equals("(Ljava/awt/Color;)V")) {
-                                            super.visitInsn(Opcodes.POP);
-                                            super.visitInsn(Opcodes.POP);
-                                        } else if (opcode == Opcodes.INVOKEVIRTUAL &&
-                                            owner.equals("fopbot/KarelWorld") &&
-                                            name.equals("setFieldColor") &&
-                                            descriptor.equals("(IILjava/awt/Color;)V")) {
-                                            super.visitInsn(Opcodes.POP);
-                                            super.visitInsn(Opcodes.POP);
-                                            super.visitInsn(Opcodes.POP);
-                                            super.visitInsn(Opcodes.POP);
-                                        } else {
-                                            super.visitMethodInsn(opcode, owner, name, descriptor, isInterface);
-                                        }
-                                    }
-                                };
+                                return super.visitMethod(access, name, descriptor, signature, exceptions);
                             }
                         }
                     }, ClassReader.SKIP_DEBUG | ClassReader.SKIP_FRAMES);
@@ -351,6 +330,52 @@ public class H04_RubricProvider implements RubricProvider {
                         }
                     }
                 }, ClassReader.SKIP_DEBUG | ClassReader.SKIP_FRAMES);
+            }
+        });
+        configuration.addTransformer(new ClassTransformer() {
+            @Override
+            public String getName() {
+                return "FieldColorTransformer";
+            }
+
+            @Override
+            public int getWriterFlags() {
+                return ClassWriter.COMPUTE_MAXS | ClassWriter.COMPUTE_FRAMES;
+            }
+
+            @Override
+            public void transform(ClassReader reader, ClassWriter writer) {
+                if (reader.getClassName().startsWith("h04")) {
+                    reader.accept(new ClassVisitor(Opcodes.ASM9, writer) {
+                        @Override
+                        public MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
+                            return new MethodVisitor(Opcodes.ASM9, super.visitMethod(access, name, descriptor, signature, exceptions)) {
+                                @Override
+                                public void visitMethodInsn(int opcode, String owner, String name, String descriptor, boolean isInterface) {
+                                    if (opcode == Opcodes.INVOKEVIRTUAL &&
+                                        owner.equals("fopbot/Field") &&
+                                        name.equals("setFieldColor") &&
+                                        descriptor.equals("(Ljava/awt/Color;)V")) {
+                                        super.visitInsn(Opcodes.POP);
+                                        super.visitInsn(Opcodes.POP);
+                                    } else if (opcode == Opcodes.INVOKEVIRTUAL &&
+                                        owner.equals("fopbot/KarelWorld") &&
+                                        name.equals("setFieldColor") &&
+                                        descriptor.equals("(IILjava/awt/Color;)V")) {
+                                        super.visitInsn(Opcodes.POP);
+                                        super.visitInsn(Opcodes.POP);
+                                        super.visitInsn(Opcodes.POP);
+                                        super.visitInsn(Opcodes.POP);
+                                    } else {
+                                        super.visitMethodInsn(opcode, owner, name, descriptor, isInterface);
+                                    }
+                                }
+                            };
+                        }
+                    }, ClassReader.SKIP_DEBUG | ClassReader.SKIP_FRAMES);
+                } else {
+                    reader.accept(writer, ClassReader.SKIP_CODE | ClassReader.SKIP_DEBUG | ClassReader.SKIP_FRAMES);
+                }
             }
         });
         RubricProvider.super.configure(configuration);
